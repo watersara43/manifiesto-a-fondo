@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El Manifiesto A Fondo — Sara Castro</title>
+<meta name="description" content="Por qué el problema de la mayoría de quienes venden nunca fueron las ventas. Un manifiesto de Sara Castro, A Fondo.">
+
+<!--
+  ============================================================
+  EL MANIFIESTO A FONDO — Sara Castro
+  Página única (HTML + CSS + JS vanilla, sin frameworks).
+  Diseño: lectura tipo ensayo editorial (Apple / Notion / Linear).
+  Preparada para: (1) alojarse dentro de la web, (2) imprimirse
+  a PDF desde el navegador sin romper el layout.
+  ============================================================
+-->
+
+<!-- Tipografía: Montserrat (texto general) + DM Sans (frases destacadas, estilo poster) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700;9..40,800;9..40,900&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+  /* ============================================================
+     1. RESET Y VARIABLES
+     ============================================================ */
+  :root{
+    --bg:#332927;
+    --text:#EFEFEF;
+    --text-muted:#C9BFBA;
+    --text-soft:#9C918B;
+    --line:#4A3F3B;
+    --accent-green:#ADC178;
+    --accent-yellow:#FFE169;
+    --max-read:720px;
+    --max-quote:920px;
+    --font-display:'DM Sans', 'Montserrat', sans-serif;
+    --ease:cubic-bezier(.16,.8,.24,1);
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight:400;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    text-rendering:optimizeLegibility;
+  }
+
+  img{ max-width:100%; display:block; }
+
+  /* ============================================================
+     2. PORTADA
+     ============================================================ */
+  .cover{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:10vh 24px;
+  }
+
+  .cover__eyebrow{
+    font-size:0.75rem;
+    font-weight:600;
+    letter-spacing:0.28em;
+    text-transform:uppercase;
+    color:var(--text-soft);
+    margin:0 0 28px;
+  }
+
+  .cover__title{
+    font-size:clamp(2.4rem, 6vw, 4.4rem);
+    font-weight:800;
+    letter-spacing:-0.02em;
+    line-height:1.06;
+    margin:0 0 24px;
+    max-width:16ch;
+  }
+
+  .cover__subtitle{
+    font-size:clamp(1.05rem, 2.2vw, 1.35rem);
+    font-weight:400;
+    font-style:italic;
+    line-height:1.55;
+    color:var(--text-muted);
+    max-width:34ch;
+    margin:0 0 44px;
+  }
+
+  .cover__author{
+    font-size:0.85rem;
+    font-weight:600;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--text);
+  }
+
+  .cover__logo{
+    width:104px;
+    height:auto;
+    border-radius:22px;
+    margin:0 0 40px;
+  }
+
+  .cover__scroll{
+    margin-top:64px;
+    width:1px;
+    height:52px;
+    background:var(--line);
+    position:relative;
+    overflow:hidden;
+  }
+
+  .cover__scroll::after{
+    content:"";
+    position:absolute;
+    top:-52px;
+    left:0;
+    width:100%;
+    height:100%;
+    background:var(--text);
+    animation:scrollLine 2.2s var(--ease) infinite;
+  }
+
+  @keyframes scrollLine{
+    0%{ top:-52px; }
+    60%{ top:52px; }
+    100%{ top:52px; }
+  }
+
+  /* ============================================================
+     3. CUERPO DEL MANIFIESTO — contenedor de lectura
+     ============================================================ */
+  .manifesto{
+    max-width:var(--max-read);
+    margin:0 auto;
+    padding:0 24px;
+  }
+
+  /* Bloque de párrafo estándar */
+  .p{
+    font-size:clamp(1.05rem, 1.4vw, 1.18rem);
+    line-height:1.85;
+    font-weight:400;
+    color:var(--text);
+    margin:0 auto;
+    padding:34px 0;
+    max-width:64ch;
+  }
+
+  /* Frase aislada — respiro visual, no ocupa toda la pantalla */
+  .isolated{
+    min-height:32vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:6vh 0;
+  }
+
+  .isolated p{
+    font-family:var(--font-display);
+    font-size:clamp(1.35rem, 2.6vw, 1.85rem);
+    font-weight:600;
+    line-height:1.45;
+    letter-spacing:-0.01em;
+    max-width:26ch;
+    margin:0 auto;
+  }
+
+  /* Cita grande a pantalla completa — solo para las frases con más peso */
+  .big-quote{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:10vh 24px;
+  }
+
+  .big-quote p{
+    font-family:var(--font-display);
+    font-size:clamp(2rem, 5.2vw, 3.4rem);
+    font-weight:700;
+    line-height:1.18;
+    letter-spacing:-0.02em;
+    max-width:var(--max-quote);
+    margin:0 auto;
+  }
+
+  /* Separador sutil entre grandes secciones */
+  .divider{
+    width:48px;
+    height:1px;
+    background:var(--line);
+    margin:12px auto;
+  }
+
+  /* ============================================================
+     4. AVISO / FILTRO — antes del CTA final
+     ============================================================ */
+  .qualifier{
+    max-width:var(--max-read);
+    margin:0 auto;
+    padding:80px 24px 0;
+    text-align:center;
+  }
+
+  .qualifier p{
+    font-size:0.95rem;
+    font-style:italic;
+    font-weight:600;
+    color:var(--accent-green);
+    line-height:1.6;
+    max-width:44ch;
+    margin:0 auto;
+  }
+
+  /* ============================================================
+     5. CTA FINAL
+     ============================================================ */
+  .cta{
+    max-width:640px;
+    margin:0 auto;
+    padding:64px 24px 14vh;
+    text-align:center;
+  }
+
+  .cta__title{
+    font-size:clamp(1.7rem, 3.4vw, 2.3rem);
+    font-weight:700;
+    letter-spacing:-0.01em;
+    margin:0 0 28px;
+  }
+
+  .cta__text{
+    font-size:1.05rem;
+    line-height:1.85;
+    color:var(--text-muted);
+    margin:0 0 48px;
+  }
+
+  .cta__actions{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:16px;
+  }
+
+  .btn{
+    display:inline-block;
+    font-family:inherit;
+    font-size:0.95rem;
+    font-weight:600;
+    letter-spacing:0.01em;
+    text-decoration:none;
+    padding:16px 40px;
+    border-radius:999px;
+    transition:all 0.3s var(--ease);
+    min-width:280px;
+  }
+
+  .btn--primary{
+    background:var(--accent-yellow);
+    color:var(--bg);
+    border:1px solid var(--accent-yellow);
+  }
+
+  .btn--primary:hover{
+    background:#FFEA8A;
+    transform:translateY(-1px);
+  }
+
+  /* ============================================================
+     6. FOOTER
+     ============================================================ */
+  .footer{
+    text-align:center;
+    padding:40px 24px 60px;
+    font-size:0.75rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--text-soft);
+  }
+
+  .footer__logo{
+    width:52px;
+    height:auto;
+    border-radius:12px;
+    margin:0 auto 16px;
+  }
+
+  /* ============================================================
+     7. ANIMACIÓN DE ENTRADA AL HACER SCROLL
+     ============================================================ */
+  .fade-block{
+    opacity:0;
+    transform:translateY(28px);
+    transition:opacity 0.9s var(--ease), transform 0.9s var(--ease);
+  }
+
+  .fade-block.in-view{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .fade-block{ opacity:1; transform:none; transition:none; }
+    .cover__scroll::after{ animation:none; }
+  }
+
+  /* ============================================================
+     8. RESPONSIVE — MÓVIL
+     ============================================================ */
+  @media (max-width:600px){
+    .cover{ padding:8vh 20px; }
+    .manifesto{ padding:0 20px; }
+    .p{ padding:26px 0; }
+    .isolated{ min-height:26vh; padding:5vh 0; }
+    .big-quote{ min-height:70vh; padding:8vh 20px; }
+    .btn{ width:100%; min-width:0; }
+  }
+
+  /* ============================================================
+     9. IMPRESIÓN / EXPORTAR A PDF
+     ============================================================ */
+  @media print{
+    @page{ margin:2cm; }
+
+    /* El manifiesto vive en oscuro en pantalla, pero se imprime en claro para ahorrar tinta y máxima legibilidad en papel */
+    :root{
+      --bg:#ffffff;
+      --text:#111111;
+      --text-muted:#444444;
+      --text-soft:#666666;
+      --line:#dddddd;
+    }
+
+    body{ background:#fff; color:#111; }
+
+    /* Sin animaciones ni pantallas completas al imprimir */
+    .fade-block{ opacity:1 !important; transform:none !important; transition:none !important; }
+
+    .cover{ min-height:auto; padding:0 0 40px; page-break-after:always; }
+    .cover__scroll{ display:none; }
+
+    .big-quote{ min-height:auto; padding:36px 0; page-break-inside:avoid; }
+    .isolated{ min-height:auto; padding:22px 0; page-break-inside:avoid; }
+
+    .p{ padding:16px 0; }
+
+    .cta{ page-break-before:always; padding:40px 0; }
+    .btn{ border:1px solid #000 !important; color:#000 !important; background:#fff !important; }
+
+    a[href]::after{ content:""; } /* evita que el navegador imprima URLs largas tras los botones */
+  }
+
+</style>
+</head>
+<body>
+
+  <!-- ============================================================
+       PORTADA
+       ============================================================ -->
+  <section class="cover">
+    <img class="cover__logo" src="logo-a-fondo.png" alt="A Fondo — Sara Castro">
+    <p class="cover__eyebrow">A Fondo</p>
+    <h1 class="cover__title">EL MANIFIESTO A FONDO</h1>
+    <p class="cover__subtitle">«Por qué el problema de la mayoría de quienes venden nunca fueron las ventas.»</p>
+    <p class="cover__author">Sara Castro</p>
+    <div class="cover__scroll" aria-hidden="true"></div>
+  </section>
+
+  <!-- ============================================================
+       CUERPO DEL MANIFIESTO
+       ============================================================ -->
+  <main class="manifesto">
+
+    <div class="p fade-block">Probablemente has llegado hasta aquí porque quieres vender más. Quizá piensas que necesitas aprender nuevas técnicas, descubrir mejores preguntas, perfeccionar tu discurso o encontrar ese guion que haga que las personas dejen de ponerte objeciones y empiecen a decirte que sí. Tal vez llevas años haciendo cursos, viendo vídeos, leyendo libros y sintiendo que siempre te falta una pieza más antes de estar realmente preparado. Yo también he estado ahí y, precisamente por eso, quiero empezar diciéndote algo que quizá nadie te ha dicho antes.</div>
+
+    <div class="isolated fade-block"><p>Tu problema nunca ha sido la venta.</p></div>
+
+    <div class="isolated fade-block"><p>El problema es que has convertido las ventas en la forma de medir cuánto vales como persona.</p></div>
+
+    <div class="p fade-block">Sin darte cuenta, cada llamada se ha convertido en un examen. Si el prospecto compra, sientes alivio. Si no compra, aparece la duda. Empiezas a preguntarte qué has hecho mal, qué técnica te falta, qué respuesta deberías haber dado o por qué otras personas parecen vender con tanta facilidad mientras tú sigues sintiendo que tienes que demostrar constantemente que eres suficiente. Poco a poco acabas creyendo que el resultado de una llamada habla de quién eres y no simplemente de cómo ha ido una conversación.</div>
+
+    <div class="isolated fade-block"><p>Pero quiero que te detengas un momento y te hagas una pregunta.</p></div>
+
+    <div class="big-quote fade-block"><p>¿Quién decidió que tu valor dependía de lo que facturas?</p></div>
+
+    <div class="p fade-block">Porque cuando mis clientes pasan por A Fondo, recuerdan esta idea por encima de cualquier técnica que les pueda enseñar:</div>
+
+    <div class="big-quote fade-block"><p>Tienes exactamente el mismo valor como persona facturando cero euros que facturando cinco mil.</p></div>
+
+    <div class="p fade-block">Tu madre no te quiere más cuando haces un buen mes. Tu pareja no deja de respetarte porque un cliente te diga que no. Tus amigos no disfrutan más de tu compañía porque cierres diez ventas esta semana. Todo eso sigue exactamente igual. La única persona que ha decidido medir su valor por los resultados eres tú. Y se que esto es duro de escuchar.</div>
+
+    <div class="isolated fade-block"><p>Y mientras sigas haciendo esto, nunca podrás vender con libertad.</p></div>
+
+    <div class="p fade-block">Porque cuando tu autoestima depende de que alguien desconocido compre tu servicio, dejas de escuchar para empezar a protegerte. Ya no estás presente en la conversación. No estás intentando comprender a la persona que tienes delante; estás intentando evitar sentirte insuficiente. Esperas tu turno para responder, piensas en cuál será la siguiente objeción, buscas la frase perfecta y analizas constantemente si lo estás haciendo bien. Tu atención deja de estar en el otro para quedarse atrapada en ti.</div>
+
+    <div class="isolated fade-block"><p>Y ahí es donde nace la mayoría de los problemas de ventas.</p></div>
+
+    <div class="p fade-block">No porque no sepas preguntar, No porque no conozcas el proceso. No porque necesites otra formación.</div>
+
+    <div class="isolated fade-block"><p>Sino porque resulta imposible escuchar de verdad a otra persona mientras estás ocupado juzgándote a ti mismo.</p></div>
+
+    <div class="p fade-block">Por eso A Fondo no empieza enseñándote a vender.</div>
+
+    <div class="big-quote fade-block"><p>Empieza enseñándote a dejar de necesitar vender para sentirte válido.</p></div>
+
+    <div class="p fade-block">Porque solo cuando dejas de buscar validación puedes estar realmente presente. Y solo cuando estás presente puedes escuchar con profundidad. Escuchar no consiste en esperar tu turno para hablar ni en seguir un listado de preguntas memorizadas. Escuchar es interesarte genuinamente por comprender qué está viviendo la persona que tienes delante. Es escuchar aquello que no está diciendo. Es dejar de responder a las palabras para empezar a descubrir la creencia que las sostiene.</div>
+
+    <div class="p fade-block">Esa es una de las ideas más importantes de todo este método.</div>
+
+    <div class="big-quote fade-block"><p>Las objeciones nunca están en las palabras. Están en el motivo por el que esas palabras aparecen.</p></div>
+
+    <div class="p fade-block">Cuando alguien dice que no tiene dinero, casi nunca está hablando de dinero. Cuando dice que necesita pensarlo, rara vez está hablando de tiempo. Cuando dice que quiere consultarlo con su pareja, normalmente no está describiendo un trámite; está expresando una creencia, un miedo o una forma de tomar decisiones que lleva años acompañándolo. Si solo escuchas las palabras, responderás a la superficie. Si aprendes a descubrir la raíz, empezarás a mantener conversaciones completamente distintas. Y para ello primero tienes que descubrir la raiz de tus miedos, de tus creencias y de tus pensamientos, para empezar a vender desde tu nueva identidad mas autentica, consciente y alineada con tus valores.</div>
+
+    <div class="p fade-block">Pero para llegar ahí hace falta algo que muy pocas formaciones enseñan.</div>
+
+    <div class="isolated fade-block"><p>Hace falta dejar de interpretar todo lo que ocurre como algo personal.</p></div>
+
+    <div class="isolated fade-block"><p>El prospecto no te está rechazando a ti.<br>Está intentando proteger aquello que cree importante.</p></div>
+
+    <div class="isolated fade-block"><p>Y cuanto menos necesites demostrar tu valor, más fácil te resultará comprender el suyo.</p></div>
+
+    <div class="p fade-block">Por eso en A Fondo hablamos tanto de identidad. Porque un closer no vende mejor únicamente por hacer mejores preguntas. Vende mejor porque deja de vivir cada llamada como una amenaza. Deja de entrar con miedo a equivocarse, deja de perseguir la aprobación del cliente y empieza a liderar desde la calma. Esa calma no nace de la experiencia únicamente. Nace de saber quién eres cuando nadie compra.</div>
+
+    <div class="isolated fade-block"><p>Ese es el verdadero trabajo, No construir una máscara de seguridad.</p></div>
+
+    <div class="big-quote fade-block"><p>Sino desarrollar una confianza que no dependa del resultado.</p></div>
+
+    <div class="p fade-block">Por eso trabajaremos cosas que, a primera vista, parecen no tener relación con las ventas. Hablaremos de hábitos, de valores, de coherencia, de atención, de presencia, de escritura, de meditación y de compromiso contigo mismo. Descubrirás que cada vez que cumples una promesa que te haces, fortaleces la confianza en ti. Cada vez que actúas en contra de tus valores, esa confianza se debilita. Y cuanto más débil es la relación contigo mismo, más necesitarás que los demás validen quién eres. Boom!</div>
+
+    <div class="p fade-block">Las ventas solo reflejan esa relación. Porque es la manera que has elegido para sanar tu miedo al rechazo, exponiéndote a él, es la manera que has elegido para ganar libertad trabajando desde donde quieras, es la manera que has elegido para ayudar a otras personas a tomar decisiones importantes que les cambiaran su vida como tú mism@ en su día tomaste.</div>
+
+    <div class="isolated fade-block"><p>Las ventas no crean esa relación contigo mism@, solo la reflejan.</p></div>
+
+    <div class="p fade-block">También descubrirás que vender con integridad significa mucho más que no mentir. Significa no esconderte. Significa dejar de utilizar trucos para conseguir una venta. Significa no crear urgencias falsas, no exagerar resultados ni prometer aquello que no puedes cumplir. Significa mostrar también la parte difícil del proceso para que la otra persona pueda decidir con claridad. Porque una venta solo merece la pena cuando el cliente compra sabiendo exactamente dónde se está metiendo. Todo lo demás puede generar ingresos a corto plazo, pero termina destruyendo aquello más importante que tienes: tu credibilidad y la relación contigo mismo.</div>
+
+    <div class="p fade-block">A Fondo no nace para enseñarte a cerrar más ventas.</div>
+
+    <div class="big-quote fade-block"><p>Nace para ayudarte a convertirte en una persona que ya no necesita una venta para sentirse suficiente.</p></div>
+
+    <div class="p fade-block">Porque cuando eso ocurre sucede algo curioso. Empiezas a escuchar mejor. Comprendes mejor. Lideras mejor. Y entonces, casi como una consecuencia natural, empiezas a vender más. No porque hayas aprendido un truco nuevo.</div>
+
+    <div class="p fade-block">Sino porque, por primera vez, has dejado de esconderte detrás de ellos. Ya no tienes apego a que la venta suceda, y qué pasa cuando emites la frecuencia de que no necesitas algo para ser quien eres? Eso refleja que ya lo tienes, por lo tanto solo falta esperar a que se materialice. Y pum! Venta!</div>
+
+    <div class="p fade-block">Si quieres empezar a valorarte por quien eres y no por tus resultados, y por consecuencia así empezar a vender sin darte cuenta con más facilidad y menos fricción, puedes unirte a mi círculo privado de WhatsApp, para estar al tanto de reflexiones, audios, vídeos, ejercicios prácticos y aprendizajes reales sobre ventas, liderazgo, identidad, mentalidad y comunicación — para que no solo mejores como vendedor@, sino también como persona. O puedes obviar este documento y seguir con tu vida como personas que viven en automático sin captar las señales.</div>
+
+  </main>
+
+  <!-- ============================================================
+       AVISO / FILTRO — antes del CTA final
+       ============================================================ -->
+  <div class="qualifier fade-block">
+    <p>Solo para closers o emprendedor@s que ya están formad@s y vendiendo, o que tengan experiencia en llamadas de venta.</p>
+  </div>
+
+  <!-- ============================================================
+       CTA FINAL
+       ============================================================ -->
+  <section class="cta fade-block">
+    <div class="divider" aria-hidden="true"></div>
+    <h2 class="cta__title">Esto solo es el principio.</h2>
+    <p class="cta__text">
+      Si este manifiesto ha resonado contigo, quiero invitarte a seguir formando parte de A Fondo.
+      Cada semana comparto reflexiones, vídeos, audios y herramientas para ayudarte a vender desde la confianza,
+      la presencia y la integridad.<br><br>
+      Sin presión. Sin trucos. Sin perseguir clientes.<br><br>
+      Solo aprendiendo a convertirte en la persona que ya no necesita una venta para sentirse suficiente.
+    </p>
+    <div class="cta__actions">
+      <a class="btn btn--primary" href="https://chat.whatsapp.com/LquNqSfmQPj9tQR3sqsKfj" target="_blank" rel="noopener">Unirme al círculo</a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <img class="footer__logo" src="logo-a-fondo.png" alt="A Fondo — Sara Castro">
+    A Fondo · Sara Castro
+  </footer>
+
+  <!-- ============================================================
+       JS — animación de entrada al hacer scroll (vanilla, sin librerías)
+       ============================================================ -->
+  <script>
+    (function(){
+      // Si el usuario prefiere menos movimiento, no animamos (ya cubierto también por CSS).
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      var blocks = document.querySelectorAll('.fade-block');
+
+      if (reduceMotion || !('IntersectionObserver' in window)) {
+        blocks.forEach(function(el){ el.classList.add('in-view'); });
+        return;
+      }
+
+      var observer = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+            observer.unobserve(entry.target); // solo aparece una vez, no parpadea al subir/bajar
+          }
+        });
+      }, {
+        threshold: 0.15,
+        rootMargin: '0px 0px -8% 0px'
+      });
+
+      blocks.forEach(function(el){ observer.observe(el); });
+    })();
+  </script>
+
+</body>
+</html>
